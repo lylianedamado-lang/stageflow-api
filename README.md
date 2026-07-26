@@ -93,6 +93,27 @@ uvicorn app.main:app --reload
 
 Documentation interactive : http://127.0.0.1:8000/docs
 
+### Jeu de donnees de demonstration
+
+Les roles `admin` et `program_manager` ne peuvent pas etre obtenus par
+inscription publique (protection contre le *mass assignment*). Un script
+d'amorcage cree les comptes a privileges :
+
+```bash
+python scripts_seed.py
+```
+
+| Compte | Role |
+|---|---|
+| `admin@dsia.fr` | admin |
+| `resp@dsia.fr` | program_manager |
+| `contact@dataforge.fr` | company |
+| `rh@analytika.fr` | company |
+| `eleve@dsia.fr` | student |
+
+Mot de passe commun : `Passw0rd!`. Le script est idempotent et refuse de
+s'executer si `ENVIRONMENT=production`.
+
 ## Lancement avec Docker
 
 ```bash
