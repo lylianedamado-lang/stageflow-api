@@ -18,6 +18,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY app ./app
 COPY alembic ./alembic
 COPY alembic.ini .
+COPY scripts_seed.py .
 
 # Execution sous un utilisateur non privilegie (exigence du sujet).
 RUN useradd --create-home --shell /usr/sbin/nologin appuser \
