@@ -13,7 +13,7 @@ REQUIRED_FIELDS_FOR_PUBLICATION = ("title", "mission", "skills")
 
 
 class OfferRepository:
-    """Acces aux offres et application des invariants de cycle de vie."""
+    """Accès aux offres et application des invariants de cycle de vie."""
 
     def __init__(self, db: Session) -> None:
         self.db = db
@@ -72,7 +72,7 @@ class OfferRepository:
             counts[status.value] = total
         return counts
 
-    # --- Ecriture ----------------------------------------------------
+    # --- Écriture ----------------------------------------------------
 
     def create_draft(self, *, company: User, **fields) -> Offer:
         offer = Offer(company_id=company.id, status=OfferStatus.DRAFT, **fields)
@@ -84,7 +84,7 @@ class OfferRepository:
     def update_draft(self, offer: Offer, **fields) -> Offer:
         if offer.status is not OfferStatus.DRAFT:
             raise BusinessRuleError(
-                "Seule une offre en brouillon peut etre modifiee"
+                "Seule une offre en brouillon peut être modifiée"
             )
         for key, value in fields.items():
             if value is not None:
@@ -94,7 +94,7 @@ class OfferRepository:
         return offer
 
     def submit(self, offer: Offer) -> Offer:
-        """Invariant : draft -> submitted, et l'offre doit etre complete."""
+        """Invariant : draft -> submitted, et l'offre doit être complète."""
         if offer.status is not OfferStatus.DRAFT:
             raise BusinessRuleError(
                 f"Transition invalide : {offer.status.value} -> submitted"
@@ -119,7 +119,7 @@ class OfferRepository:
         """Invariant : submitted -> published | rejected."""
         if offer.status is not OfferStatus.SUBMITTED:
             raise BusinessRuleError(
-                f"Seule une offre soumise peut etre arbitree "
+                f"Seule une offre soumise peut être arbitrée "
                 f"(statut actuel : {offer.status.value})"
             )
 

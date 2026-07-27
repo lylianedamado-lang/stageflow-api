@@ -2,16 +2,16 @@ import pytest
 
 OFFRE_COMPLETE = {
     "title": "Stage Data Science",
-    "mission": "Construire des modeles de prevision",
+    "mission": "Construire des modèles de prévision",
     "skills": "Python, SQL, scikit-learn",
     "location": "Dakar",
 }
-MOTIVATION = "Je suis tres motive par ce stage " * 3
+MOTIVATION = "Je suis très motivée par ce stage " * 3
 
 
 @pytest.fixture()
 def offre_publiee_id(client, company_a, manager, auth_headers):
-    """Une offre complete, soumise et publiee, via l'API."""
+    """Une offre complète, soumise et publiée, via l'API."""
     ha = auth_headers(company_a.email)
     hr = auth_headers(manager.email)
     oid = client.post("/offers", json=OFFRE_COMPLETE, headers=ha).json()["id"]
@@ -38,7 +38,7 @@ class TestParcoursNominalComplet:
         assert client.patch(f"/offers/{oid}/submit", headers=ha).json()["status"] == "submitted"
 
         r = client.patch(f"/offers/{oid}/review",
-                         json={"decision": "publish", "comment": "Validee"}, headers=hr)
+                         json={"decision": "publish", "comment": "Validée"}, headers=hr)
         assert r.json()["status"] == "published"
 
         r = client.get("/offers", headers=he)
@@ -62,7 +62,7 @@ class TestParcoursNominalComplet:
 
 
 class TestIsolationEntreEntreprises:
-    """Test exige par le sujet."""
+    """Test exigé par le sujet."""
 
     def test_une_entreprise_ne_voit_pas_les_candidatures_d_une_autre(
         self, client, company_b, offre_publiee_id, student, auth_headers

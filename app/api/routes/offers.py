@@ -51,7 +51,7 @@ def _visible_offer_or_404(repo: OfferRepository, offer_id: int, user: User) -> O
 
 
 def _assert_owner_or_staff(offer: Offer, user: User) -> None:
-    """403 si l'offre est visible mais n'appartient pas a cet utilisateur."""
+    """403 si l'offre est visible mais n'appartient pas à cet utilisateur."""
     if user.role in STAFF_ROLES:
         return
     if user.role is UserRole.COMPANY and offer.company_id == user.id:
@@ -65,7 +65,7 @@ def _assert_owner_or_staff(offer: Offer, user: User) -> None:
     "/stats",
     response_model=StatsResponse,
     summary="Statistiques globales (responsable)",
-    responses={403: {"description": "Reserve au responsable pedagogique"}},
+    responses={403: {"description": "Réservé au responsable pédagogique"}},
 )
 def offer_stats(
     offer_repo: OfferRepo,
@@ -84,8 +84,8 @@ def offer_stats(
     "",
     response_model=OfferRead,
     status_code=status.HTTP_201_CREATED,
-    summary="Creer une offre en brouillon (entreprise)",
-    responses={403: {"description": "Reserve aux comptes entreprise"}},
+    summary="Créer une offre en brouillon (entreprise)",
+    responses={403: {"description": "Réservé aux comptes entreprise"}},
 )
 def create_offer(
     payload: OfferCreate,
@@ -99,7 +99,7 @@ def create_offer(
 @router.get(
     "",
     response_model=Page[OfferRead],
-    summary="Lister les offres publiees",
+    summary="Lister les offres publiées",
 )
 def list_offers(
     repo: OfferRepo,
@@ -127,7 +127,7 @@ def list_offers(
 @router.get(
     "/{offer_id}",
     response_model=OfferRead,
-    summary="Detail d'une offre",
+    summary="Détail d'une offre",
     responses={404: {"description": "Offre absente ou non visible"}},
 )
 def get_offer(offer_id: int, repo: OfferRepo, current_user: CurrentUser) -> OfferRead:
@@ -141,7 +141,7 @@ def get_offer(offer_id: int, repo: OfferRepo, current_user: CurrentUser) -> Offe
     summary="Modifier un brouillon (entreprise proprietaire)",
     responses={
         400: {"description": "L'offre n'est plus en brouillon"},
-        403: {"description": "Offre appartenant a une autre entreprise"},
+        403: {"description": "Offre appartenant à une autre entreprise"},
     },
 )
 def update_offer(
@@ -159,10 +159,10 @@ def update_offer(
 @router.patch(
     "/{offer_id}/submit",
     response_model=OfferRead,
-    summary="Soumettre l'offre a validation (entreprise proprietaire)",
+    summary="Soumettre l'offre à validation (entreprise proprietaire)",
     responses={
         400: {"description": "Transition invalide ou champs manquants"},
-        403: {"description": "Offre appartenant a une autre entreprise"},
+        403: {"description": "Offre appartenant à une autre entreprise"},
     },
 )
 def submit_offer(
@@ -181,7 +181,7 @@ def submit_offer(
     summary="Publier ou refuser une offre (responsable)",
     responses={
         400: {"description": "L'offre n'est pas au statut submitted"},
-        403: {"description": "Reserve au responsable pedagogique"},
+        403: {"description": "Réservé au responsable pédagogique"},
     },
 )
 def review_offer(
@@ -202,10 +202,10 @@ def review_offer(
     response_model=ApplicationRead,
     status_code=status.HTTP_201_CREATED,
     tags=["applications"],
-    summary="Deposer une candidature (etudiant)",
+    summary="Déposer une candidature (etudiant)",
     responses={
-        400: {"description": "Offre non publiee ou candidature deja existante"},
-        403: {"description": "Reserve aux etudiants"},
+        400: {"description": "Offre non publiée ou candidature déjà existante"},
+        403: {"description": "Réservé aux etudiants"},
         404: {"description": "Offre absente ou non visible"},
     },
 )
@@ -227,9 +227,9 @@ def create_application(
     "/{offer_id}/applications",
     response_model=Page[ApplicationRead],
     tags=["applications"],
-    summary="Candidatures d'une offre (entreprise proprietaire ou responsable)",
+    summary="Candidatures d'une offre (entreprise propriétaire ou responsable)",
     responses={
-        403: {"description": "Offre appartenant a une autre entreprise"},
+        403: {"description": "Offre appartenant à une autre entreprise"},
         404: {"description": "Offre absente ou non visible"},
     },
 )

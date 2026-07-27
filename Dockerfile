@@ -10,7 +10,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Les dependances sont copiees seules : le cache Docker est conserve
+# Les dépendances sont copiées seules : le cache Docker est conservé
 # tant que requirements.txt ne change pas.
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
@@ -20,7 +20,7 @@ COPY alembic ./alembic
 COPY alembic.ini .
 COPY scripts_seed.py .
 
-# Execution sous un utilisateur non privilegie (exigence du sujet).
+# Execution sous un utilisateur non privilégié (exigence du sujet).
 RUN useradd --create-home --shell /usr/sbin/nologin appuser \
     && chown -R appuser:appuser /app
 USER appuser

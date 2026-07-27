@@ -1,4 +1,4 @@
-"""creation initiale des tables
+"""création initiale des tables
 
 Revision ID: e9ac3466a950
 Revises: 

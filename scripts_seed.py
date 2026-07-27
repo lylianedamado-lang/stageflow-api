@@ -1,7 +1,7 @@
-"""Amorcage : cree les comptes a privileges et un jeu de donnees de demonstration.
+"""Amorcage : crée les comptes à privilégés et un jeu de donnéées de démonstration.
 
 Usage : python scripts_seed.py
-Idempotent : relancable sans creer de doublons.
+Idempotent : relancable sans créer de doublons.
 """
 
 from app.core.config import settings
@@ -48,7 +48,7 @@ def main() -> None:
         )
         print(f"  + {email:28} {role.value:16} cree")
 
-    # Une offre publiee et une candidature, pour une demo immediate.
+    # Une offre publiee et une candidature, pour une demo immédiate.
     entreprise = crees["contact@dataforge.fr"]
     etudiant = crees["eleve@dsia.fr"]
 

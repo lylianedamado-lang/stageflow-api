@@ -1,12 +1,10 @@
-from collections.abc import Generator
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 
-# SQLite refuse par defaut d'etre utilise depuis plusieurs threads.
-# FastAPI etant multi-thread, on desactive cette verification pour SQLite uniquement.
+# SQLite refuse par défaut d'être utilisé depuis plusieurs threads.
+# FastAPI étant multi-thread, on désactive cette vérification pour SQLite uniquement.
 connect_args = (
     {"check_same_thread": False}
     if settings.database_url.startswith("sqlite")
@@ -28,8 +26,8 @@ SessionLocal = sessionmaker(
 )
 
 
-def get_db() -> Generator[Session, None, None]:
-    """Dependance FastAPI : ouvre une session par requete et la ferme toujours."""
+def get_db():
+    """Dépendance FastAPI : ouvre une session par requête et la ferme toujours."""
     db = SessionLocal()
     try:
         yield db

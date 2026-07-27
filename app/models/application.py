@@ -15,7 +15,7 @@ from app.utils.time import utcnow
 
 
 class ApplicationStatus(str, Enum):
-    """Cycle de vie : pending -> accepted | rejected | withdrawn."""
+    """Le cycle de vie : pending -> accepted | rejected | withdrawn."""
 
     PENDING = "pending"
     ACCEPTED = "accepted"

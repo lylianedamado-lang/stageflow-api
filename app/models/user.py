@@ -30,7 +30,7 @@ class User(Base):
         index=True,
     )
 
-    # Renseigne uniquement pour les comptes de role "company"
+    # Renseigne uniquement pour les comptes de rôle "company"
     company_name: Mapped[str | None] = mapped_column(String(150), nullable=True)
 
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

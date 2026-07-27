@@ -1,6 +1,6 @@
 import os
 
-# Doit etre defini AVANT l'import de app.core.config : la CI n'a pas de .env.
+# Doit être défini AVANT l'import de app.core.config : la CI n'a pas de .env.
 os.environ.setdefault("JWT_SECRET_KEY", "cle-de-test-non-secrete")
 os.environ.setdefault("DATABASE_URL", "sqlite://")
 os.environ.setdefault("ENVIRONMENT", "test")
@@ -15,7 +15,7 @@ from sqlalchemy.pool import StaticPool
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models import User, UserRole  # noqa: F401  (enregistre les tables)
+from app.models import User, UserRole
 from app.repositories.user_repository import UserRepository
 from app.utils.hashing import hash_password
 
@@ -24,7 +24,7 @@ TEST_PASSWORD = "Passw0rd!"
 
 @pytest.fixture()
 def engine():
-    """Base SQLite en memoire, recreee pour chaque test."""
+    """Base SQLite en mémoire, recréée pour chaque test."""
     test_engine = create_engine(
         "sqlite://",
         connect_args={"check_same_thread": False},
@@ -48,7 +48,7 @@ def db_session(engine) -> Session:
 
 @pytest.fixture()
 def client(db_session) -> TestClient:
-    """Client HTTP dont la dependance get_db pointe vers la base de test."""
+    """Client HTTP dont la dépendance get_db pointe vers la base de test."""
 
     def override_get_db():
         yield db_session
@@ -88,7 +88,7 @@ def make_user(db_session):
 
 @pytest.fixture()
 def auth_headers(client):
-    """Retourne l'en-tete Authorization pour un email donne."""
+    """Retourne l'entête Authorization pour un email donné."""
 
     def _headers(email: str, password: str = TEST_PASSWORD) -> dict[str, str]:
         response = client.post(
@@ -100,7 +100,7 @@ def auth_headers(client):
     return _headers
 
 
-# --- Comptes prets a l'emploi ---------------------------------------
+# --- Comptes prêts à l'emploi ---------------------------------------
 
 @pytest.fixture()
 def student(make_user) -> User:

@@ -4,13 +4,13 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
 
 from app.models.role import UserRole
 
-# bcrypt ignore silencieusement au-dela de 72 octets : on borne en amont.
+# bcrypt ignore silencieusement au-delà de 72 octets : on borne en amont.
 PASSWORD_MIN = 8
 PASSWORD_MAX = 72
 
 
 class UserCreate(BaseModel):
-    """DTO d'entree : inscription publique."""
+    """DTO d'entrée : inscription publique."""
 
     email: EmailStr
     password: str = Field(min_length=PASSWORD_MIN, max_length=PASSWORD_MAX)
@@ -20,15 +20,15 @@ class UserCreate(BaseModel):
 
     @model_validator(mode="after")
     def check_role_and_company(self) -> "UserCreate":
-        # Un compte a privileges ne peut jamais etre cree par inscription libre.
+        # Un compte à privilèges ne peut jamais être créé par inscription libre.
         if self.role in (UserRole.PROGRAM_MANAGER, UserRole.ADMIN):
             raise ValueError(
-                "L'inscription publique n'autorise que les roles student et company"
+                "L'inscription publique n'autorise que les rôles student et company"
             )
         if self.role is UserRole.COMPANY and not self.company_name:
             raise ValueError("company_name est obligatoire pour un compte entreprise")
         if self.role is not UserRole.COMPANY and self.company_name:
-            raise ValueError("company_name est reserve aux comptes entreprise")
+            raise ValueError("company_name est réservé aux comptes entreprise")
         return self
 
 
@@ -47,6 +47,6 @@ class UserRead(BaseModel):
 
 
 class UserRoleUpdate(BaseModel):
-    """DTO d'entree : changement de role, reserve a l'admin."""
+    """DTO d'entrée : changement de rôle, réservé à l'admin."""
 
     role: UserRole

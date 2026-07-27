@@ -17,7 +17,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 Repo = Annotated[UserRepository, Depends(get_user_repository)]
 
 
-@router.get("/me", response_model=UserRead, summary="Profil de l'utilisateur connecte")
+@router.get("/me", response_model=UserRead, summary="Profil de l'utilisateur connecté")
 def read_me(current_user: CurrentUser) -> UserRead:
     return UserRead.model_validate(current_user)
 
@@ -26,7 +26,7 @@ def read_me(current_user: CurrentUser) -> UserRead:
     "",
     response_model=Page[UserRead],
     summary="Lister les comptes (admin)",
-    responses={403: {"description": "Reserve a l'administrateur"}},
+    responses={403: {"description": "Réservé à l'administrateur"}},
 )
 def list_users(
     repo: Repo,
@@ -45,10 +45,10 @@ def list_users(
 @router.patch(
     "/{user_id}/role",
     response_model=UserRead,
-    summary="Forcer le role d'un compte (admin)",
+    summary="Forcer le rôle d'un compte (admin)",
     responses={
         400: {"description": "Operation interdite"},
-        403: {"description": "Reserve a l'administrateur"},
+        403: {"description": "Réservé à l'administrateur"},
         404: {"description": "Utilisateur introuvable"},
     },
 )
@@ -62,13 +62,13 @@ def update_user_role(
     if target is None:
         raise NotFoundError("Utilisateur introuvable")
     if target.id == admin.id:
-        raise BusinessRuleError("Un administrateur ne peut pas modifier son propre role")
+        raise BusinessRuleError("Un administrateur ne peut pas modifier son propre rôle")
 
     ancien_role = target.role.value
     repo.update_role(target, payload.role)
 
     logger.warning(
-        "Changement de role : user_id=%s %s -> %s par admin_id=%s",
+        "Changement de rôle : user_id=%s %s -> %s par admin_id=%s",
         target.id,
         ancien_role,
         payload.role.value,

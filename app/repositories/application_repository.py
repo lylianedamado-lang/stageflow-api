@@ -13,7 +13,7 @@ ACTIVE_STATUSES = (ApplicationStatus.PENDING, ApplicationStatus.ACCEPTED)
 
 
 class ApplicationRepository:
-    """Acces aux candidatures et application des invariants."""
+    """Accès aux candidatures et application des invariants."""
 
     def __init__(self, db: Session) -> None:
         self.db = db
@@ -89,23 +89,23 @@ class ApplicationRepository:
             counts[status.value] = total
         return counts
 
-    # --- Ecriture ----------------------------------------------------
+    # --- Écriture ----------------------------------------------------
 
     def create(self, *, offer: Offer, student_id: int, motivation: str) -> Application:
-        """Invariants : offre publiee, et une seule candidature active par offre."""
+        """Invariants : offre publiée, et une seule candidature active par offre."""
         if offer.status is not OfferStatus.PUBLISHED:
             raise BusinessRuleError(
-                "Impossible de candidater a une offre non publiee"
+                "Impossible de candidater à une offre non publiée"
             )
 
         existante = self.get_by_offer_and_student(offer.id, student_id)
         if existante is not None:
             if existante.status in ACTIVE_STATUSES:
                 raise BusinessRuleError(
-                    "Une candidature active existe deja pour cette offre"
+                    "Une candidature active existe déjà pour cette offre"
                 )
             raise BusinessRuleError(
-                "Vous avez deja candidate a cette offre"
+                "Vous avez déjà candidaté à cette offre"
             )
 
         application = Application(
@@ -122,10 +122,10 @@ class ApplicationRepository:
     def decide(
         self, application: Application, *, decision: str, comment: str | None
     ) -> Application:
-        """Invariant : seule une candidature en attente peut etre arbitree."""
+        """Invariant : seule une candidature en attente peut être arbitrée."""
         if application.status is not ApplicationStatus.PENDING:
             raise BusinessRuleError(
-                f"Seule une candidature en attente peut etre arbitree "
+                f"Seule une candidature en attente peut être arbitrée "
                 f"(statut actuel : {application.status.value})"
             )
 
@@ -140,14 +140,14 @@ class ApplicationRepository:
         return application
 
     def withdraw(self, application: Application) -> Application:
-        """Invariant : une candidature acceptee ne peut plus etre retiree."""
+        """Invariant : une candidature acceptée ne peut plus être retirée."""
         if application.status is ApplicationStatus.ACCEPTED:
             raise BusinessRuleError(
-                "Une candidature acceptee ne peut plus etre retiree"
+                "Une candidature acceptée ne peut plus être retirée"
             )
         if application.status is not ApplicationStatus.PENDING:
             raise BusinessRuleError(
-                f"Candidature deja close (statut : {application.status.value})"
+                f"Candidature déjà close (statut : {application.status.value})"
             )
 
         application.status = ApplicationStatus.WITHDRAWN

@@ -18,18 +18,18 @@ app = FastAPI(
     version="1.0.0",
     description=(
         "API interne de gestion des offres de stage, des candidatures "
-        "et des validations pedagogiques du Master DSIA."
+        "et des validations pédagogiques du Master DSIA."
     ),
     openapi_tags=[
         {"name": "auth", "description": "Inscription et connexion."},
         {"name": "users", "description": "Profil et administration des comptes."},
         {"name": "offers", "description": "Cycle de vie des offres de stage."},
-        {"name": "applications", "description": "Depot et arbitrage des candidatures."},
+        {"name": "applications", "description": "Dépôt et arbitrage des candidatures."},
         {"name": "health", "description": "Supervision."},
     ],
 )
 
-# L'ordre compte : le dernier ajoute est le premier execute.
+# L'ordre compte : le dernier ajoute est le premier éxécuté.
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RequestIDMiddleware)
 
@@ -41,6 +41,6 @@ app.include_router(offers.router)
 app.include_router(applications.router)
 
 
-@app.get("/health", tags=["health"], summary="Sonde de disponibilite")
+@app.get("/health", tags=["health"], summary="Sonde de disponibilité de l'API.")
 def health() -> dict[str, str]:
     return {"status": "ok", "environment": settings.environment}

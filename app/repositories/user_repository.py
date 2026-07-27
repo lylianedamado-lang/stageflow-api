@@ -10,7 +10,7 @@ from app.models.user import User
 
 
 class UserRepository:
-    """Seul point d'acces SQL aux comptes utilisateurs."""
+    """Seul point d'accès SQL aux comptes utilisateurs."""
 
     def __init__(self, db: Session) -> None:
         self.db = db
@@ -71,5 +71,5 @@ class UserRepository:
 
 
 def get_user_repository(db: Session = Depends(get_db)) -> UserRepository:
-    """Fournit un repository deja relie a la session de la requete."""
+    """Fournit un repository déjà relié a la session de la requête."""
     return UserRepository(db)

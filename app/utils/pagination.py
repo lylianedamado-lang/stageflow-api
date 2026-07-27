@@ -10,7 +10,7 @@ MAX_LIMIT = 100
 
 
 class PaginationParams:
-    """Parametres de pagination communs, injectes comme dependance."""
+    """Paramètres de pagination communs, injectés comme dépendance."""
 
     def __init__(
         self,
@@ -25,7 +25,7 @@ Pagination = Annotated[PaginationParams, Depends(PaginationParams)]
 
 
 class Page(BaseModel, Generic[T]):
-    """Enveloppe de reponse paginee."""
+    """Enveloppe de réponse paginée."""
 
     items: list[T]
     total: int

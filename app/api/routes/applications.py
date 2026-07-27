@@ -20,8 +20,8 @@ AppRepo = Annotated[ApplicationRepository, Depends(get_application_repository)]
 @router.get(
     "/me",
     response_model=Page[ApplicationRead],
-    summary="Mes candidatures (etudiant)",
-    responses={403: {"description": "Reserve aux etudiants"}},
+    summary="Mes candidatures (étudiant)",
+    responses={403: {"description": "Réservé aux étudiants"}},
 )
 def list_my_applications(
     repo: AppRepo,
@@ -45,7 +45,7 @@ def list_my_applications(
     summary="Accepter ou refuser une candidature (responsable)",
     responses={
         400: {"description": "La candidature n'est plus en attente"},
-        403: {"description": "Reserve au responsable pedagogique"},
+        403: {"description": "Réservé au responsable pédagogique"},
         404: {"description": "Candidature introuvable"},
     },
 )
@@ -65,10 +65,10 @@ def decide_application(
 @router.delete(
     "/{application_id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    summary="Retirer sa candidature (etudiant)",
+    summary="Retirer sa candidature (étudiant)",
     responses={
-        400: {"description": "Candidature acceptee ou deja close"},
-        403: {"description": "Candidature d'un autre etudiant"},
+        400: {"description": "Candidature acceptée ou déjà close"},
+        403: {"description": "Candidature d'un autre étudiant"},
         404: {"description": "Candidature introuvable"},
     },
 )

@@ -17,12 +17,12 @@ Repo = Annotated[UserRepository, Depends(get_user_repository)]
 
 
 def _authenticate(repo: UserRepository, email: str, password: str):
-    """Verifie les identifiants. Message volontairement identique dans tous les cas."""
+    """Vérifie les identifiants. Message volontairement identique dans tous les cas."""
     user = repo.get_by_email(email)
     if user is None or not verify_password(password, user.hashed_password):
         raise AuthenticationError("Email ou mot de passe incorrect")
     if not user.is_active:
-        raise AuthenticationError("Compte desactive")
+        raise AuthenticationError("Compte désactivé")
     return user
 
 
@@ -39,12 +39,12 @@ def _issue_token(user) -> dict:
     response_model=UserRead,
     status_code=status.HTTP_201_CREATED,
     summary="Inscription publique",
-    responses={400: {"description": "Email deja utilise"}},
+    responses={400: {"description": "Email déjà utilisé"}},
 )
 def register(payload: UserCreate, repo: Repo) -> UserRead:
-    """Cree un compte student ou company. Les roles a privileges sont refuses."""
+    """Crée un compte student ou company. Les rôles a privilégés sont refusés."""
     if repo.email_exists(payload.email):
-        raise BusinessRuleError("Cet email est deja utilise")
+        raise BusinessRuleError("Cet email est déjà utilisé")
 
     user = repo.create(
         email=payload.email,
@@ -66,7 +66,7 @@ def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     repo: Repo,
 ) -> Token:
-    """Flux OAuth2 password : le champ username recoit l'email."""
+    """Flux OAuth2 password : le champ username reçoit l'email."""
     user = _authenticate(repo, form_data.username, form_data.password)
     return Token(**_issue_token(user))
 

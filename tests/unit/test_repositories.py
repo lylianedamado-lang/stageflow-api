@@ -19,11 +19,11 @@ def app_repo(db_session) -> ApplicationRepository:
 
 @pytest.fixture()
 def offre_publiee(offer_repo, company_a):
-    """Une offre complete, soumise puis publiee."""
+    """Une offre complète, soumise puis publiée."""
     offre = offer_repo.create_draft(
         company=company_a,
         title="Stage NLP",
-        mission="Entrainer des modeles",
+        mission="Entraîner des modèles",
         skills="Python, PyTorch",
         location="Dakar",
     )
@@ -33,7 +33,7 @@ def offre_publiee(offer_repo, company_a):
 
 
 class TestCycleDeVieOffre:
-    def test_une_offre_naît_en_brouillon(self, offer_repo, company_a):
+    def test_une_offre_nait_en_brouillon(self, offer_repo, company_a):
         offre = offer_repo.create_draft(company=company_a, title="Titre")
         assert offre.status is OfferStatus.DRAFT
         assert offre.company_id == company_a.id
@@ -145,7 +145,7 @@ class TestInvariantsCandidature:
         self, offer_repo, app_repo, company_a, student
     ):
         brouillon = offer_repo.create_draft(company=company_a, title="T")
-        with pytest.raises(BusinessRuleError, match="non publiee"):
+        with pytest.raises(BusinessRuleError, match="non publiée"):
             app_repo.create(
                 offer=brouillon, student_id=student.id, motivation="m" * 30
             )
@@ -160,7 +160,7 @@ class TestInvariantsCandidature:
         self, app_repo, offre_publiee, student
     ):
         app_repo.create(offer=offre_publiee, student_id=student.id, motivation="m" * 30)
-        with pytest.raises(BusinessRuleError, match="deja"):
+        with pytest.raises(BusinessRuleError, match="déjà"):
             app_repo.create(
                 offer=offre_publiee, student_id=student.id, motivation="autre" * 10
             )
@@ -204,7 +204,7 @@ class TestInvariantsCandidature:
             offer=offre_publiee, student_id=student.id, motivation="m" * 30
         )
         app_repo.decide(candidature, decision="accept", comment=None)
-        with pytest.raises(BusinessRuleError, match="acceptee"):
+        with pytest.raises(BusinessRuleError, match="acceptée"):
             app_repo.withdraw(candidature)
         assert candidature.status is ApplicationStatus.ACCEPTED
 

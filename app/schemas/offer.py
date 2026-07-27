@@ -7,7 +7,7 @@ from app.models.offer import OfferStatus
 
 
 class OfferCreate(BaseModel):
-    """DTO d'entree : creation d'un brouillon, champs facultatifs."""
+    """DTO d'entrée : création d'un brouillon, champs facultatifs."""
 
     title: str | None = Field(default=None, max_length=200)
     mission: str | None = None
@@ -16,7 +16,7 @@ class OfferCreate(BaseModel):
 
 
 class OfferUpdate(OfferCreate):
-    """DTO d'entree : modification d'un brouillon."""
+    """DTO d'entrée : modification d'un brouillon."""
 
 
 class OfferRead(BaseModel):
@@ -37,14 +37,14 @@ class OfferRead(BaseModel):
 
 
 class OfferReviewRequest(BaseModel):
-    """DTO d'entree : arbitrage du responsable pedagogique."""
+    """DTO d'entrée : arbitrage du responsable pédagogique."""
 
     decision: Literal["publish", "reject"]
     comment: str | None = Field(default=None, max_length=1000)
 
 
 class StatsResponse(BaseModel):
-    """DTO de sortie : statistiques agregees."""
+    """DTO de sortie : statistiques agrégées."""
 
     offers_by_status: dict[str, int]
     applications_by_status: dict[str, int]

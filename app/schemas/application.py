@@ -7,7 +7,7 @@ from app.models.application import ApplicationStatus
 
 
 class ApplicationCreate(BaseModel):
-    """DTO d'entree : depot d'une candidature."""
+    """DTO d'entrée : dépôt d'une candidature."""
 
     motivation: str = Field(min_length=20, max_length=5000)
 
@@ -28,7 +28,7 @@ class ApplicationRead(BaseModel):
 
 
 class ApplicationDecisionRequest(BaseModel):
-    """DTO d'entree : arbitrage d'une candidature."""
+    """DTO d'entrée : arbitrage d'une candidature."""
 
     decision: Literal["accept", "reject"]
     comment: str | None = Field(default=None, max_length=1000)

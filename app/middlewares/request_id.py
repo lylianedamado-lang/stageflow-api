@@ -11,7 +11,7 @@ REQUEST_ID_HEADER = "X-Request-ID"
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
-    """Attribue un identifiant unique a chaque requete, le journalise et le renvoie."""
+    """Attribue un identifiant unique à chaque requête, le journalise et le renvoie."""
 
     async def dispatch(self, request: Request, call_next):
         request_id = request.headers.get(REQUEST_ID_HEADER) or str(uuid.uuid4())
@@ -31,3 +31,4 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
             request_id,
         )
         return response
+    
