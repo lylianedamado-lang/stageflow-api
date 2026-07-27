@@ -15,11 +15,11 @@ from sqlalchemy.pool import StaticPool
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models import User, UserRole
+from app.models import User, UserRole  # noqa: F401  (enregistre les tables)
 from app.repositories.user_repository import UserRepository
 from app.utils.hashing import hash_password
 
-TEST_PASSWORD = "Passw0rd!"
+TEST_PASSWORD = "Passw0rd123!"
 
 
 @pytest.fixture()
@@ -88,7 +88,7 @@ def make_user(db_session):
 
 @pytest.fixture()
 def auth_headers(client):
-    """Retourne l'entête Authorization pour un email donné."""
+    """Retourne l'en-tête Authorization pour un email donné."""
 
     def _headers(email: str, password: str = TEST_PASSWORD) -> dict[str, str]:
         response = client.post(
@@ -104,28 +104,28 @@ def auth_headers(client):
 
 @pytest.fixture()
 def student(make_user) -> User:
-    return make_user("eleve@dsia.fr", UserRole.STUDENT, full_name="Eleve DSIA")
+    return make_user("eleve@isi.sn", UserRole.STUDENT, full_name="Élève DSIA")
 
 
 @pytest.fixture()
 def company_a(make_user) -> User:
     return make_user(
-        "a@boite.fr", UserRole.COMPANY, full_name="Boite A", company_name="Boite A"
+        "a@entreprise.sn", UserRole.COMPANY, full_name="Boîte A", company_name="Boîte A"
     )
 
 
 @pytest.fixture()
 def company_b(make_user) -> User:
     return make_user(
-        "b@boite.fr", UserRole.COMPANY, full_name="Boite B", company_name="Boite B"
+        "b@entreprise.sn", UserRole.COMPANY, full_name="Boîte B", company_name="Boîte B"
     )
 
 
 @pytest.fixture()
 def manager(make_user) -> User:
-    return make_user("resp@dsia.fr", UserRole.PROGRAM_MANAGER, full_name="Responsable")
+    return make_user("resp@isi.sn", UserRole.PROGRAM_MANAGER, full_name="Responsable")
 
 
 @pytest.fixture()
 def admin(make_user) -> User:
-    return make_user("admin@dsia.fr", UserRole.ADMIN, full_name="Admin")
+    return make_user("admin@isi.sn", UserRole.ADMIN, full_name="Admin")

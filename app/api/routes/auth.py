@@ -42,7 +42,7 @@ def _issue_token(user) -> dict:
     responses={400: {"description": "Email déjà utilisé"}},
 )
 def register(payload: UserCreate, repo: Repo) -> UserRead:
-    """Crée un compte student ou company. Les rôles a privilégés sont refusés."""
+    """Crée un compte student ou company. Les rôles à privilèges sont refusés."""
     if repo.email_exists(payload.email):
         raise BusinessRuleError("Cet email est déjà utilisé")
 

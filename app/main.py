@@ -2,6 +2,7 @@ import logging
 
 from fastapi import FastAPI
 
+
 from app.api.routes import applications, auth, offers, users
 from app.core.config import settings
 from app.core.errors import register_exception_handlers
@@ -29,7 +30,7 @@ app = FastAPI(
     ],
 )
 
-# L'ordre compte : le dernier ajoute est le premier éxécuté.
+# L'ordre compte : le dernier ajouté est le premier exécuté.
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RequestIDMiddleware)
 
@@ -41,6 +42,6 @@ app.include_router(offers.router)
 app.include_router(applications.router)
 
 
-@app.get("/health", tags=["health"], summary="Sonde de disponibilité de l'API.")
+@app.get("/health", tags=["health"], summary="Sonde de disponibilité")
 def health() -> dict[str, str]:
     return {"status": "ok", "environment": settings.environment}

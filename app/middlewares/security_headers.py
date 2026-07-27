@@ -10,7 +10,7 @@ SECURITY_HEADERS = {
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-    """Durcissement minimal : ajoute des entêtes de sécurité à chaque réponse."""
+    """Durcissement minimal : ajoute des en-têtes de sécurité à chaque réponse."""
 
     async def dispatch(self, request: Request, call_next):
         response = await call_next(request)

@@ -14,7 +14,7 @@ def create_access_token(
     role: str,
     expires_delta: timedelta | None = None,
 ) -> str:
-    """Genere un JWT signe contenant l'identifiant et le role de l'utilisateur."""
+    """Génère un JWT signé contenant l'identifiant et le rôle de l'utilisateur."""
     now = utcnow()
     expire = now + (
         expires_delta
@@ -35,7 +35,7 @@ def create_access_token(
 
 
 def decode_access_token(token: str) -> dict:
-    """Verifie la signature et l'expiration, puis retourne le contenu du jeton."""
+    """Vérifie la signature et l'expiration, puis retourne le contenu du jeton."""
     try:
         payload = jwt.decode(
             token,
@@ -43,7 +43,7 @@ def decode_access_token(token: str) -> dict:
             algorithms=[settings.jwt_algorithm],
         )
     except jwt.ExpiredSignatureError as exc:
-        raise AuthenticationError("Jeton expire") from exc
+        raise AuthenticationError("Jeton expiré") from exc
     except jwt.InvalidTokenError as exc:
         raise AuthenticationError("Jeton invalide") from exc
 

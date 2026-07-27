@@ -11,7 +11,7 @@ def hash_password(plain_password: str) -> str:
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Compare un mot de passe en clair a son hash. Ne leve jamais d'exception."""
+    """Compare un mot de passe en clair à son hash. Ne lève jamais d'exception."""
     try:
         return pwd_context.verify(plain_password, hashed_password)
     except ValueError:

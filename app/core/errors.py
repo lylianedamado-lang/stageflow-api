@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 
 
 class AppError(Exception):
-    """Erreur applicative de base, traduite en reponse HTTP par un handler."""
+    """Erreur applicative de base, traduite en réponse HTTP par un handler."""
 
     status_code: int = 500
     default_detail: str = "Erreur interne du serveur"
@@ -15,15 +15,15 @@ class AppError(Exception):
 
 
 class BusinessRuleError(AppError):
-    """400 - une regle metier n'est pas respectee."""
+    """400 - une règle métier n'est pas respectée."""
 
     status_code = 400
-    default_detail = "Regle metier non respectee"
+    default_detail = "Règle métier non respectée"
     error_code = "business_rule_violation"
 
 
 class AuthenticationError(AppError):
-    """401 - identite non etablie ou jeton invalide."""
+    """401 - identité non établie ou jeton invalide."""
 
     status_code = 401
     default_detail = "Authentification requise"
@@ -31,10 +31,10 @@ class AuthenticationError(AppError):
 
 
 class PermissionDeniedError(AppError):
-    """403 - identite connue mais habilitation insuffisante."""
+    """403 - identité connue mais habilitation insuffisante."""
 
     status_code = 403
-    default_detail = "Acces non autorise"
+    default_detail = "Accès non autorisé"
     error_code = "forbidden"
 
 
@@ -47,7 +47,7 @@ class NotFoundError(AppError):
 
 
 def register_exception_handlers(app: FastAPI) -> None:
-    """Traduit toute AppError en reponse JSON homogene."""
+    """Traduit toute AppError en réponse JSON homogène."""
 
     @app.exception_handler(AppError)
     async def app_error_handler(request: Request, exc: AppError) -> JSONResponse:

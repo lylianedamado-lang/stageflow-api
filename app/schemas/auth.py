@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr, Field
 
 from app.schemas.user import PASSWORD_MAX, PASSWORD_MIN, UserRead
 
-
 class LoginRequest(BaseModel):
     """DTO d'entrée : connexion en JSON (alternative au formulaire OAuth2)."""
 

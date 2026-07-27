@@ -6,9 +6,9 @@ from app.core.errors import NotFoundError, PermissionDeniedError
 from app.core.permissions import (
     CurrentUser,
     require_company,
-    require_student,
     require_program_manager,
     require_staff,
+    require_student,
 )
 from app.models.offer import Offer, OfferStatus
 from app.models.role import UserRole
@@ -59,7 +59,7 @@ def _assert_owner_or_staff(offer: Offer, user: User) -> None:
     raise PermissionDeniedError("Cette offre ne vous appartient pas")
 
 
-# --- Statistiques (declaree AVANT /{offer_id}) ----------------------
+# --- Statistiques (déclarée AVANT /{offer_id}) ----------------------
 
 @router.get(
     "/stats",
@@ -138,7 +138,7 @@ def get_offer(offer_id: int, repo: OfferRepo, current_user: CurrentUser) -> Offe
 @router.patch(
     "/{offer_id}",
     response_model=OfferRead,
-    summary="Modifier un brouillon (entreprise proprietaire)",
+    summary="Modifier un brouillon (entreprise propriétaire)",
     responses={
         400: {"description": "L'offre n'est plus en brouillon"},
         403: {"description": "Offre appartenant à une autre entreprise"},
@@ -159,7 +159,7 @@ def update_offer(
 @router.patch(
     "/{offer_id}/submit",
     response_model=OfferRead,
-    summary="Soumettre l'offre à validation (entreprise proprietaire)",
+    summary="Soumettre l'offre à validation (entreprise propriétaire)",
     responses={
         400: {"description": "Transition invalide ou champs manquants"},
         403: {"description": "Offre appartenant à une autre entreprise"},
@@ -195,17 +195,17 @@ def review_offer(
     return OfferRead.model_validate(offer)
 
 
-# --- Candidatures rattachees a une offre ----------------------------
+# --- Candidatures rattachées à une offre ----------------------------
 
 @router.post(
     "/{offer_id}/applications",
     response_model=ApplicationRead,
     status_code=status.HTTP_201_CREATED,
     tags=["applications"],
-    summary="Déposer une candidature (etudiant)",
+    summary="Déposer une candidature (étudiant)",
     responses={
         400: {"description": "Offre non publiée ou candidature déjà existante"},
-        403: {"description": "Réservé aux etudiants"},
+        403: {"description": "Réservé aux étudiants"},
         404: {"description": "Offre absente ou non visible"},
     },
 )

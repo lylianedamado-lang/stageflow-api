@@ -31,4 +31,3 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
             request_id,
         )
         return response
-    

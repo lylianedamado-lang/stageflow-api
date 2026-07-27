@@ -34,7 +34,7 @@ class UserRepository:
     def count(self) -> int:
         return self.db.execute(select(func.count(User.id))).scalar_one()
 
-    # --- Ecriture ----------------------------------------------------
+    # --- Écriture ----------------------------------------------------
 
     def create(
         self,
@@ -71,5 +71,5 @@ class UserRepository:
 
 
 def get_user_repository(db: Session = Depends(get_db)) -> UserRepository:
-    """Fournit un repository déjà relié a la session de la requête."""
+    """Fournit un repository déjà relié à la session de la requête."""
     return UserRepository(db)

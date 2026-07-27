@@ -1,19 +1,19 @@
 from app.models.role import UserRole
 
-MDP = "Passw0rd!"
+MDP = "Passw0rd123!"
 
 
 class TestInscription:
     def test_inscription_etudiant(self, client):
         r = client.post("/auth/register", json={
-            "email": "nouveau@dsia.fr", "password": MDP, "full_name": "Nouveau",
+            "email": "nouveau@isi.sn", "password": MDP, "full_name": "Nouveau",
         })
         assert r.status_code == 201
         assert r.json()["role"] == "student"
 
     def test_le_mot_de_passe_ne_ressort_jamais(self, client):
         r = client.post("/auth/register", json={
-            "email": "n2@dsia.fr", "password": MDP, "full_name": "Nouveau",
+            "email": "n2@isi.sn", "password": MDP, "full_name": "Nouveau",
         })
         corps = r.json()
         assert "password" not in corps
@@ -27,14 +27,14 @@ class TestInscription:
 
     def test_inscription_admin_refusee(self, client):
         r = client.post("/auth/register", json={
-            "email": "pirate@dsia.fr", "password": MDP,
+            "email": "pirate@isi.sn", "password": MDP,
             "full_name": "Pirate", "role": "admin",
         })
         assert r.status_code == 422
 
     def test_entreprise_sans_nom_refusee(self, client):
         r = client.post("/auth/register", json={
-            "email": "c@boite.fr", "password": MDP,
+            "email": "c@entreprise.sn", "password": MDP,
             "full_name": "Boite", "role": "company",
         })
         assert r.status_code == 422
@@ -60,18 +60,18 @@ class TestConnexion:
 
     def test_email_inconnu(self, client):
         r = client.post("/auth/login/json",
-                        json={"email": "fantome@dsia.fr", "password": MDP})
+                        json={"email": "fantome@isi.sn", "password": MDP})
         assert r.status_code == 401
 
     def test_message_identique_pour_les_deux_echecs(self, client, student):
         r1 = client.post("/auth/login/json",
                          json={"email": student.email, "password": "Faux1234!"})
         r2 = client.post("/auth/login/json",
-                         json={"email": "fantome@dsia.fr", "password": MDP})
+                         json={"email": "fantome@isi.sn", "password": MDP})
         assert r1.json()["detail"] == r2.json()["detail"]
 
     def test_compte_desactive_refuse(self, client, make_user):
-        u = make_user("off@dsia.fr", UserRole.STUDENT, is_active=False)
+        u = make_user("off@isi.sn", UserRole.STUDENT, is_active=False)
         r = client.post("/auth/login/json", json={"email": u.email, "password": MDP})
         assert r.status_code == 401
 

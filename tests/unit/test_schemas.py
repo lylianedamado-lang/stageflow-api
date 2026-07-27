@@ -9,13 +9,13 @@ from app.schemas.user import UserCreate, UserRead
 
 class TestSeparationEntreeSortie:
     def test_le_schema_de_sortie_ne_contient_pas_le_hash(self, make_user):
-        user = make_user("x@test.fr", UserRole.STUDENT)
+        user = make_user("x@test.sn", UserRole.STUDENT)
         sortie = UserRead.model_validate(user).model_dump()
         assert "hashed_password" not in sortie
         assert "password" not in sortie
 
     def test_le_schema_de_sortie_expose_les_champs_attendus(self, make_user):
-        user = make_user("y@test.fr", UserRole.STUDENT)
+        user = make_user("y@test.sn", UserRole.STUDENT)
         sortie = UserRead.model_validate(user).model_dump()
         assert set(sortie) == {
             "id",
@@ -32,8 +32,8 @@ class TestValidationInscription:
     def test_inscription_en_admin_refusee(self):
         with pytest.raises(ValidationError):
             UserCreate(
-                email="p@test.fr",
-                password="Passw0rd!",
+                email="p@test.sn",
+                password="Passw0rd123!",
                 full_name="Pirate",
                 role=UserRole.ADMIN,
             )
@@ -41,8 +41,8 @@ class TestValidationInscription:
     def test_inscription_en_responsable_refusee(self):
         with pytest.raises(ValidationError):
             UserCreate(
-                email="p@test.fr",
-                password="Passw0rd!",
+                email="p@test.sn",
+                password="Passw0rd123!",
                 full_name="Pirate",
                 role=UserRole.PROGRAM_MANAGER,
             )
@@ -50,8 +50,8 @@ class TestValidationInscription:
     def test_entreprise_sans_nom_refusee(self):
         with pytest.raises(ValidationError):
             UserCreate(
-                email="c@test.fr",
-                password="Passw0rd!",
+                email="c@test.sn",
+                password="Passw0rd123!",
                 full_name="Boite",
                 role=UserRole.COMPANY,
             )
@@ -59,8 +59,8 @@ class TestValidationInscription:
     def test_etudiant_avec_nom_entreprise_refuse(self):
         with pytest.raises(ValidationError):
             UserCreate(
-                email="e@test.fr",
-                password="Passw0rd!",
+                email="e@test.sn",
+                password="Passw0rd123!",
                 full_name="Eleve",
                 role=UserRole.STUDENT,
                 company_name="Boite",
@@ -68,14 +68,14 @@ class TestValidationInscription:
 
     def test_mot_de_passe_trop_court_refuse(self):
         with pytest.raises(ValidationError):
-            UserCreate(email="e@test.fr", password="court", full_name="Eleve")
+            UserCreate(email="e@test.sn", password="court", full_name="Eleve")
 
     def test_email_invalide_refuse(self):
         with pytest.raises(ValidationError):
-            UserCreate(email="pas-un-email", password="Passw0rd!", full_name="Eleve")
+            UserCreate(email="pas-un-email", password="Passw0rd123!", full_name="Eleve")
 
     def test_inscription_etudiant_valide(self):
-        dto = UserCreate(email="e@test.fr", password="Passw0rd!", full_name="Eleve")
+        dto = UserCreate(email="e@test.sn", password="Passw0rd123!", full_name="Eleve")
         assert dto.role is UserRole.STUDENT
 
 

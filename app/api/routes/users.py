@@ -47,7 +47,7 @@ def list_users(
     response_model=UserRead,
     summary="Forcer le rôle d'un compte (admin)",
     responses={
-        400: {"description": "Operation interdite"},
+        400: {"description": "Opération interdite"},
         403: {"description": "Réservé à l'administrateur"},
         404: {"description": "Utilisateur introuvable"},
     },
